@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import './Regi.css';
 
 export const Regi = () => {
   const navigate = useNavigate();

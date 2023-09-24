@@ -1,0 +1,70 @@
+/* Regi.css */
+
+.form {
+    max-width: 100%; /* Adjust the max-width to make the form wider */
+    height: 100vh;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  }
+  
+  .form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .form input[type="text"],
+  .form input[type="email"],
+  .form input[type="number"],
+  .form input[type="password"],
+  .form select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  .form input[type="radio"],
+  .form input[type="checkbox"] {
+    margin-right: 5px;
+     /* Align the radio buttons and text vertically */
+  }
+  
+  .form button[type="submit"] {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .form button[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Style the select element */
+  .form select {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, #007bff 50%),
+      linear-gradient(135deg, #007bff 50%, transparent 50%);
+    background-position: calc(100% - 20px) center, calc(100% - 15px) center;
+    background-size: 6px 6px, 6px 6px;
+    background-repeat: no-repeat;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #333;
+  }
+  
