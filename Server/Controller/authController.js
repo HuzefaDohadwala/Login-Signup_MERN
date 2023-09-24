@@ -1,4 +1,5 @@
 const user = require('../Models/user')
+const {hashPassword,comaparePassword} = require('../Helps/auth')
 
 const test= (req,res)=>{
     res.json('test is working')
@@ -24,8 +25,12 @@ const registerUser= async (req,res)=>{
             })
             
         }
+
+
+        const hashCurrentPassword = await hashPassword(password)
+
         const newUser = await user.create({
-            name,email,phone,password,gender,country,age
+            name,email,phone,password:hashCurrentPassword,gender,country,age
         })
 
         res.json(newUser)
@@ -37,8 +42,28 @@ const registerUser= async (req,res)=>{
 
 }
  
+const loginUser = async (req,res)=>{
+    try {
+        const {phone,password}= req.body
+        const loginUser = await user.findOne({phone})
+        if(!loginUser){
+            return res.json({
+                error : 'User not found'
+            })
+        }
+
+        const match = await comaparePassword(password,loginUser.password)
+        if(match){
+            res.json('password match')
+        }
+    } catch (error) {
+        console.log(error);
+    }
+
+}
 
 module.exports ={
     test,
-    registerUser
+    registerUser,
+    loginUser
 }
