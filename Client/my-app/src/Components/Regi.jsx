@@ -1,6 +1,10 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+import toast from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom';
 
 export const Regi = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     name: '',
     email: '',
@@ -11,10 +15,25 @@ export const Regi = () => {
     age: '', // Add age field
   });
 
-  const RegisterUser = (e) => {
+  const RegisterUser = async (e) => {
     e.preventDefault();
-    // Here you can access all the user's data including gender, country, and age
-    console.log(data);
+    const {name,email,phone,password,gender,country,age}=data
+    try {
+      const {data}= await axios.post('/regi',{
+        name,email,phone,password,gender,country,age
+      })
+
+      if (data.error) {
+        toast.error(data.error)
+      }
+      else{
+        setData({})
+        toast.success('Login successful')
+        navigate('/login')
+      }
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   return (
@@ -55,35 +74,35 @@ export const Regi = () => {
           <div>
             <input
               type="radio"
-              id="male"
+              id="Male"
               name="gender"
-              value="male"
-              checked={data.gender === 'male'}
+              value="Male"
+              checked={data.gender === 'Male'}
               onChange={(e) => setData({ ...data, gender: e.target.value })}
             />
-            <label htmlFor="male">Male</label>
+            <label htmlFor="Male">Male</label>
           </div>
           <div>
             <input
               type="radio"
-              id="female"
+              id="Female"
               name="gender"
-              value="female"
-              checked={data.gender === 'female'}
+              value="Female"
+              checked={data.gender === 'Female'}
               onChange={(e) => setData({ ...data, gender: e.target.value })}
             />
-            <label htmlFor="female">Female</label>
+            <label htmlFor="Female">Female</label>
           </div>
           <div>
             <input
               type="radio"
-              id="other"
+              id="Other"
               name="gender"
-              value="other"
-              checked={data.gender === 'other'}
+              value="Other"
+              checked={data.gender === 'Other'}
               onChange={(e) => setData({ ...data, gender: e.target.value })}
             />
-            <label htmlFor="other">Other</label>
+            <label htmlFor="Other">Other</label>
           </div>
 
           {/* Country Field */}
@@ -109,10 +128,10 @@ export const Regi = () => {
 </select>
 
 
-          {/* Age Field */}
-          <label>Date of Birth</label>
+          {/* Age Field */} 
+          <label>Age</label>
           <input
-            type="date"
+            type="number"
             value={data.age}
             onChange={(e) => setData({ ...data, age: e.target.value })}
           />
