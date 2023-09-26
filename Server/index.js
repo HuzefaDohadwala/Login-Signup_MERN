@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv').config();
 const cors = require('cors');
 const mongoose = require('mongoose');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
@@ -14,6 +15,8 @@ mongoose.connect('mongodb://127.0.0.1:27017/newuser')
 })
 
 app.use(express.json());
+app.use(cookieParser());
+app.use(express.urlencoded({extended: false}));
 
 app.use("/", require("./Routes/authRoutes"))
 

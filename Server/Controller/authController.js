@@ -1,5 +1,7 @@
 const user = require('../Models/user')
 const {hashPassword,comaparePassword} = require('../Helps/auth')
+const jwt = require('jsonwebtoken');
+
 
 const test= (req,res)=>{
     res.json('test is working')
@@ -7,6 +9,7 @@ const test= (req,res)=>{
 
 const registerUser= async (req,res)=>{
     try {
+        console.log("registerUser")
         const {name,email,phone,password,gender,country,age}= req.body;
         if(!name){
             return res.json({
@@ -44,6 +47,7 @@ const registerUser= async (req,res)=>{
  
 const loginUser = async (req,res)=>{
     try {
+        console.log("loginUser");
         const {phone,password}= req.body
         const loginUser = await user.findOne({phone})
         if(!loginUser){
@@ -54,7 +58,17 @@ const loginUser = async (req,res)=>{
 
         const match = await comaparePassword(password,loginUser.password)
         if(match){
-            res.json('password match')
+            const secretKey = '619301832947';
+            jwt.sign(
+                { email: loginUser.email, id: loginUser._id, name: loginUser.name },
+                secretKey,
+                {},
+                (error, token) => {
+                  if (error) throw error;
+                  res.cookie('token', token).json(loginUser);
+                }
+              );
+              
         }
     } catch (error) {
         console.log(error);
@@ -62,8 +76,26 @@ const loginUser = async (req,res)=>{
 
 }
 
+const getProfile =(req,res)=>{
+    console.log("chal raha hai getprofile");
+    const secretKey = '619301832947';
+    const token = req.cookies.token;
+    console.log(token);
+    console.log("verify token")
+    if(token){
+        jwt.verify(token,secretKey,{},(err,user)=>{
+            if(err) throw err
+            res.json(user)
+        })
+    }
+    else{
+        res.json(null)
+    }
+}
+
 module.exports ={
     test,
     registerUser,
-    loginUser
+    loginUser,
+    getProfile
 }

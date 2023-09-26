@@ -23,7 +23,6 @@ export const Regi = () => {
       const {data}= await axios.post('/regi',{
         name,email,phone,password,gender,country,age
       })
-
       if (data.error) {
         toast.error(data.error)
       }
@@ -136,7 +135,6 @@ export const Regi = () => {
             value={data.age}
             onChange={(e) => setData({ ...data, age: e.target.value })}
           />
-
           <button type="submit">Submit</button>
         </form>
       </div>
